@@ -1,0 +1,32 @@
+# Προκαταλήψεις και περιορισμοί[[bias-and-limitations]]
+
+<CourseFloatingBanner chapter={1}
+  classNames="absolute z-10 right-0 top-0"
+  notebooks={[
+    {label: "Google Colab", value: "https://colab.research.google.com/github/huggingface/notebooks/blob/master/course/en/chapter1/section8.ipynb"},
+    {label: "Aws Studio", value: "https://studiolab.sagemaker.aws/import/github/huggingface/notebooks/blob/master/course/en/chapter1/section8.ipynb"},
+]} />
+
+Αν σκοπεύετε να χρησιμοποιήσετε ένα προ-εκπαιδευμένο μοντέλο ή μια βελτιστοποιημένη έκδοση στην παραγωγή, παρακαλώ να γνωρίζετε ότι, ενώ αυτά τα μοντέλα είναι ισχυρά εργαλεία, συνοδεύονται από περιορισμούς. Ο μεγαλύτερος από αυτούς είναι ότι, για να επιτρέψουν την προ-εκπαίδευση σε μεγάλες ποσότητες δεδομένων, οι ερευνητές συχνά αντλούν όλο το περιεχόμενο που μπορούν να βρουν, παίρνοντας το καλύτερο αλλά και το χειρότερο από αυτό που είναι διαθέσιμο στο διαδίκτυο.
+
+Για να δώσουμε μια γρήγορη απεικόνιση, ας επιστρέψουμε στο παράδειγμα ενός pipeline `fill-mask` με το μοντέλο BERT:
+
+```python
+from transformers import pipeline
+
+unmasker = pipeline("fill-mask", model="bert-base-uncased")
+result = unmasker("This man works as a [MASK].")
+print([r["token_str"] for r in result])
+
+result = unmasker("This woman works as a [MASK].")
+print([r["token_str"] for r in result])
+```
+
+```python out
+['lawyer', 'carpenter', 'doctor', 'waiter', 'mechanic']
+['nurse', 'waitress', 'teacher', 'maid', 'prostitute']
+```
+
+Όταν ζητηθεί να συμπληρώσει τη λέξη που λείπει σε αυτές τις δύο προτάσεις, το μοντέλο δίνει μόνο μία απάντηση χωρίς φύλο (σερβιτόρος/σερβιτόρα). Οι άλλες είναι επαγγελματικές ασχολίες που συνήθως σχετίζονται με ένα συγκεκριμένο φύλο — και ναι, η «πόρνη» κατέληξε στις κορυφαίες 5 πιθανότητες που το μοντέλο σχετίζει με τη «γυναίκα» και την «εργασία». Αυτό συμβαίνει ακόμα και αν το BERT είναι ένα από τα σπάνια μοντέλα Transformer που δεν κατασκευάστηκε αντλώντας δεδομένα από παντού στο διαδίκτυο, αλλά μάλλον χρησιμοποιώντας φαινομενικά ουδέτερα δεδομένα (εκπαιδεύεται στα σύνολα δεδομένων [English Wikipedia](https://huggingface.co/datasets/wikipedia) και [BookCorpus](https://huggingface.co/datasets/bookcorpus)).
+
+Όταν χρησιμοποιείτε αυτά τα εργαλεία, πρέπει επομένως να έχετε πάντα στο μυαλό σας ότι το αρχικό μοντέλο που χρησιμοποιείτε θα μπορούσε πολύ εύκολα να δημιουργήσει σεξιστικό, ρατσιστικό ή ομοφοβικό περιεχόμενο. Η βελτιστοποίηση του μοντέλου στα δεδομένα σας δεν θα εξαλείψει αυτή την εγγενή προκατάληψη.

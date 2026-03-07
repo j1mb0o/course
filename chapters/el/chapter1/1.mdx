@@ -1,0 +1,140 @@
+# Εισαγωγή[[introduction]]
+
+<CourseFloatingBanner
+    chapter={1}
+    classNames="absolute z-10 right-0 top-0"
+/>
+
+## Καλώς ήρθατε στο 🤗 Μάθημα![[welcome-to-the-course]]
+
+<Youtube id="00GKzGyWFEs" />
+
+Αυτό το μάθημα θα σας διδάξει για τα μεγάλα γλωσσικά μοντέλα (LLMs) και την επεξεργασία φυσικής γλώσσας (NLP) χρησιμοποιώντας βιβλιοθήκες από το οικοσύστημα της [Hugging Face](https://huggingface.co/) — [🤗 Transformers](https://github.com/huggingface/transformers), [🤗 Datasets](https://github.com/huggingface/datasets), [🤗 Tokenizers](https://github.com/huggingface/tokenizers) και [🤗 Accelerate](https://github.com/huggingface/accelerate) — καθώς και το [Hugging Face Hub](https://huggingface.co/models).
+
+Θα καλύψουμε επίσης βιβλιοθήκες εκτός του οικοσυστήματος Hugging Face. Αυτές αποτελούν εξαιρετικές συνεισφορές στην κοινότητα τεχνητής νοημοσύνης και είναι απίστευτα χρήσιμα εργαλεία.
+
+Είναι εντελώς δωρεάν και χωρίς διαφημίσεις.
+
+## Κατανόηση NLP και LLMs[[understanding-nlp-and-llms]]
+
+Ενώ αυτό το μάθημα αρχικά εστίαζε στην NLP (Επεξεργασία Φυσικής Γλώσσας), έχει εξελιχθεί ώστε να δίνει έμφαση στα Μεγάλα Γλωσσικά Μοντέλα (LLMs), τα οποία αντιπροσωπεύουν την πιο πρόσφατη εξέλιξη στον τομέα.
+
+**Ποια είναι η διαφορά;**
+- **NLP (Επεξεργασία Φυσικής Γλώσσας)** είναι το ευρύτερο πεδίο που επικεντρώνεται στο να δίνει στους υπολογιστές τη δυνατότητα να κατανοούν, ερμηνεύουν και παράγουν ανθρώπινη γλώσσα. Η NLP περιλαμβάνει πολλές τεχνικές και εργασίες, όπως ανάλυση συναισθήματος, αναγνώριση ονομασμένων οντοτήτων και μηχανική μετάφραση.
+- **LLMs (Μεγάλα Γλωσσικά Μοντέλα)** είναι ένα ισχυρό υποσύνολο μοντέλων NLP που χαρακτηρίζονται από τεράστιο μέγεθος, εκτεταμένα δεδομένα εκπαίδευσης και ικανότητα εκτέλεσης ευρέος φάσματος γλωσσικών εργασιών με ελάχιστη εξειδικευμένη εκπαίδευση. Μοντέλα όπως η σειρά Llama, GPT ή Claude είναι παραδείγματα LLMs που έχουν επαναστατήσει τις δυνατότητες στη NLP.
+
+Κατά τη διάρκεια αυτού του μαθήματος, θα μάθετε τόσο για τις παραδοσιακές έννοιες NLP όσο και για τις τελευταίες τεχνικές LLM, καθώς η κατανόηση των θεμελίων της NLP είναι κρίσιμη για την αποτελεσματική εργασία με LLMs.
+
+## Τι να περιμένετε;[[what-to-expect]]
+
+Εδώ είναι μια σύντομη επισκόπηση του μαθήματος:
+
+<div class="flex justify-center">
+<img class="block dark:hidden" src="https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter1/summary.svg" alt="Σύντομη επισκόπηση των κεφαλαίων του μαθήματος.">
+<img class="hidden dark:block" src="https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter1/summary-dark.svg" alt="Σύντομη επισκόπηση των κεφαλαίων του μαθήματος.">
+</div>
+
+- Τα Κεφάλαια 1 έως 4 παρέχουν εισαγωγή στις κύριες έννοιες της βιβλιοθήκης 🤗 Transformers. Στο τέλος αυτού του τμήματος, θα εξοικειωθείτε με τον τρόπο λειτουργίας των μοντέλων Transformer και θα γνωρίζετε πώς να χρησιμοποιείτε ένα μοντέλο από το [Hugging Face Hub](https://huggingface.co/models), να το βελτιστοποιείτε σε ένα σύνολο δεδομένων και να μοιράζεστε τα αποτελέσματά σας στο Hub!
+- Τα Κεφάλαια 5 έως 8 διδάσκουν τα βασικά των 🤗 Datasets και 🤗 Tokenizers πριν εμβαθύνουν σε κλασικές εργασίες NLP και τεχνικές LLM. Στο τέλος αυτού του τμήματος, θα μπορείτε να αντιμετωπίζετε τις πιο συνηθισμένες προκλήσεις επεξεργασίας γλώσσας μόνοι σας.
+- Το Κεφάλαιο 9 ξεπερνά τη NLP και καλύπτει πώς να δημιουργείτε και να μοιράζεστε επιδείξεις των μοντέλων σας στο 🤗 Hub. Στο τέλος αυτού του τμήματος, θα είστε έτοιμοι να παρουσιάσετε την εφαρμογή σας 🤗 Transformers στον κόσμο!
+- Τα Κεφάλαια 10 έως 12 εμβαθύνουν σε προχωρημένα θέματα LLM, όπως βελτιστοποίηση, επιμέλεια υψηλής ποιότητας συνόλων δεδομένων και δημιουργία μοντέλων συλλογισμού.
+
+Αυτό το μάθημα:
+
+* Απαιτεί καλή γνώση Python
+* Είναι καλύτερο να το παρακολουθείτε μετά από ένα εισαγωγικό μάθημα βαθιάς μάθησης, όπως το [Practical Deep Learning for Coders](https://course.fast.ai/) της [fast.ai](https://www.fast.ai/) ή ένα από τα προγράμματα που έχει αναπτύξει η [DeepLearning.AI](https://www.deeplearning.ai/)
+* Δεν απαιτεί προηγούμενη γνώση [PyTorch](https://pytorch.org/) ή [TensorFlow](https://www.tensorflow.org/), αν και κάποια εξοικείωση με οποιοδήποτε από αυτά θα βοηθήσει
+
+Αφού ολοκληρώσετε αυτό το μάθημα, σας συνιστούμε να δείτε τη [Natural Language Processing Specialization](https://www.coursera.org/specializations/natural-language-processing?utm_source=deeplearning-ai&utm_medium=institutions&utm_campaign=20211011-nlp-2-hugging_face-page-nlp-refresh) της DeepLearning.AI, η οποία καλύπτει ένα ευρύ φάσμα παραδοσιακών μοντέλων NLP, όπως τα naive Bayes και LSTM, που αξίζει να γνωρίζετε!
+
+## Ποιοι είμαστε;[[who-are-we]]
+
+Σχετικά με τους συγγραφείς:
+
+[**Abubakar Abid**](https://huggingface.co/abidlabs) ολοκλήρωσε το διδακτορικό του στο Stanford στην εφαρμοσμένη μηχανική μάθηση. Κατά τη διάρκεια του διδακτορικού του, ίδρυσε το [Gradio](https://github.com/gradio-app/gradio), μια ανοιχτού κώδικα βιβλιοθήκη Python που έχει χρησιμοποιηθεί για την κατασκευή πάνω από 600.000 επιδείξεων μηχανικής μάθησης. Το Gradio εξαγοράστηκε από την Hugging Face, όπου ο Abubakar υπηρετεί τώρα ως επικεφαλής ομάδας μηχανικής μάθησης.
+
+[**Ben Burtenshaw**](https://huggingface.co/burtenshaw) είναι Μηχανικός Μηχανικής Μάθησης στη Hugging Face. Ολοκλήρωσε το διδακτορικό του στην Επεξεργασία Φυσικής Γλώσσας στο Πανεπιστήμιο της Αμβέρσας, όπου εφάρμοσε μοντέλα Transformer για τη δημιουργία παιδικών ιστοριών με σκοπό τη βελτίωση της αναγνωστικής ικανότητας. Έκτοτε, έχει επικεντρωθεί σε εκπαιδευτικό υλικό και εργαλεία για την ευρύτερη κοινότητα.
+
+[**Matthew Carrigan**](https://huggingface.co/Rocketknight1) είναι Μηχανικός Μηχανικής Μάθησης στη Hugging Face. Ζει στο Δουβλίνο, Ιρλανδία και προηγουμένως εργαζόταν ως μηχανικός ML στην Parse.ly και πριν ως μεταδιδακτορικός ερευνητής στο Trinity College Dublin.
+
+[**Lysandre Debut**](https://huggingface.co/lysandre) είναι Μηχανικός Μηχανικής Μάθησης στη Hugging Face και εργάζεται στη βιβλιοθήκη 🤗 Transformers από τα πρώτα στάδια ανάπτυξης. Στόχος του είναι να κάνει τη NLP προσβάσιμη σε όλους αναπτύσσοντας εργαλεία με απλό API.
+
+[**Sylvain Gugger**](https://huggingface.co/sgugger) είναι Ερευνητικός Μηχανικός στη Hugging Face και ένας από τους βασικούς συντηρητές της βιβλιοθήκης 🤗 Transformers. Προηγουμένως ήταν Ερευνητικός Επιστήμονας στη fast.ai και συν-έγραψε το _[Deep Learning for Coders with fastai and PyTorch](https://learning.oreilly.com/library/view/deep-learning-for/9781492045519/)_ με τον Jeremy Howard.
+
+[**Dawood Khan**](https://huggingface.co/dawoodkhan82) είναι Μηχανικός Μηχανικής Μάθησης στη Hugging Face. Κατάγεται από τη Νέα Υόρκη και αποφοίτησε από το Πανεπιστήμιο της Νέας Υόρκης σπουδάζοντας Πληροφορική.
+
+[**Merve Noyan**](https://huggingface.co/merve) είναι developer advocate στη Hugging Face, εργάζεται στην ανάπτυξη εργαλείων και δημιουργία περιεχομένου για τη δημοκρατικοποίηση της μηχανικής μάθησης για όλους.
+
+[**Lucile Saulnier**](https://huggingface.co/SaulLu) είναι μηχανικός μηχανικής μάθησης στη Hugging Face, αναπτύσσει και υποστηρίζει τη χρήση εργαλείων ανοιχτού κώδικα.
+
+[**Lewis Tunstall**](https://huggingface.co/lewtun) είναι μηχανικός μηχανικής μάθησης στη Hugging Face, επικεντρωμένος στην ανάπτυξη εργαλείων ανοιχτού κώδικα. Είναι επίσης συν-συγγραφέας του βιβλίου O'Reilly [Natural Language Processing with Transformers](https://www.oreilly.com/library/view/natural-language-processing/9781098136789/).
+
+[**Leandro von Werra**](https://huggingface.co/lvwerra) είναι μηχανικός μηχανικής μάθησης στην ομάδα ανοιχτού κώδικα της Hugging Face και συν-συγγραφέας του βιβλίου O'Reilly [Natural Language Processing with Transformers](https://www.oreilly.com/library/view/natural-language-processing/9781098136789/).
+
+## Συχνές Ερωτήσεις[[faq]]
+
+Ακολουθούν μερικές απαντήσεις σε συχνές ερωτήσεις:
+
+- **Οδηγεί η παρακολούθηση αυτού του μαθήματος σε πιστοποίηση;**
+Προς το παρόν δεν διαθέτουμε κάποια πιστοποίηση για αυτό το μάθημα. Ωστόσο, εργαζόμαστε σε ένα πρόγραμμα πιστοποίησης για το οικοσύστημα Hugging Face — μείνετε συντονισμένοι!
+
+- **Πόσο χρόνο πρέπει να αφιερώσω σε αυτό το μάθημα;**
+Κάθε κεφάλαιο αυτού του μαθήματος είναι σχεδιασμένο να ολοκληρωθεί σε 1 εβδομάδα, με περίπου 6-8 ώρες εργασίας ανά εβδομάδα. Ωστόσο, μπορείτε να αφιερώσετε όσο χρόνο χρειάζεστε για να ολοκληρώσετε το μάθημα.
+
+- **Πού μπορώ να κάνω μια ερώτηση αν έχω κάποια;**
+Αν έχετε μια ερώτηση σχετικά με οποιοδήποτε τμήμα του μαθήματος, απλώς κάντε κλικ στο banner "*Κάντε μια ερώτηση*" στην κορυφή της σελίδας για να ανακατευθυνθείτε αυτόματα στο σωστό τμήμα των [φόρουμ Hugging Face](https://discuss.huggingface.co/):
+
+<img src="https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter1/forum-button.png" alt="Σύνδεσμος προς τα φόρουμ Hugging Face" width="75%">
+
+- **Πού μπορώ να βρω τον κώδικα για το μάθημα;**
+Για κάθε τμήμα, κάντε κλικ στο banner στην κορυφή της σελίδας για να εκτελέσετε τον κώδικα είτε στο Google Colab είτε στο Amazon SageMaker Studio Lab:
+
+<img src="https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter1/notebook-buttons.png" alt="Σύνδεσμος προς τα notebooks του μαθήματος Hugging Face" width="75%">
+
+Τα Jupyter notebooks που περιέχουν όλον τον κώδικα του μαθήματος φιλοξενούνται στο αποθετήριο [`huggingface/notebooks`](https://github.com/huggingface/notebooks).
+
+- **Πώς μπορώ να συνεισφέρω στο μάθημα;**
+Υπάρχουν πολλοί τρόποι να συνεισφέρετε στο μάθημα! Αν βρείτε ένα τυπογραφικό λάθος ή ένα bug, παρακαλώ ανοίξτε ένα issue στο αποθετήριο [`course`](https://github.com/huggingface/course). Αν θέλετε να βοηθήσετε στη μετάφραση του μαθήματος στη μητρική σας γλώσσα, δείτε τις οδηγίες [εδώ](https://github.com/huggingface/course#translating-the-course-into-your-language).
+
+- **Μπορώ να επαναχρησιμοποιήσω αυτό το μάθημα;**
+Φυσικά! Το μάθημα κυκλοφορεί υπό την ελευθέρα άδεια [Apache 2](https://www.apache.org/licenses/LICENSE-2.0.html). Αυτό σημαίνει ότι πρέπει να δώσετε κατάλληλη πίστωση, να παρέχετε σύνδεσμο προς την άδεια και να υποδείξετε αν έγιναν αλλαγές.
+
+```
+@misc{huggingfacecourse,
+  author = {Hugging Face},
+  title = {The Hugging Face Course, 2022},
+  howpublished = "\url{https://huggingface.co/course}",
+  year = {2022},
+  note = "[Online; accessed <today>]"
+}
+```
+
+## Γλώσσες και μεταφράσεις[[languages-and-translations]]
+
+Χάρη στην υπέροχη κοινότητά μας, το μάθημα είναι διαθέσιμο σε πολλές γλώσσες εκτός από τα Αγγλικά 🔥! Δείτε τον παρακάτω πίνακα για να δείτε ποιες γλώσσες είναι διαθέσιμες και ποιοι συνεισέφεραν στις μεταφράσεις:
+
+| Γλώσσα                                                                        | Συγγραφείς                                                                                                                                                                                                                                                                                                                                               |
+|:------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Γαλλικά](https://huggingface.co/course/fr/chapter1/1)                        | [@lbourdois](https://github.com/lbourdois), [@ChainYo](https://github.com/ChainYo), [@melaniedrevet](https://github.com/melaniedrevet), [@abdouaziz](https://github.com/abdouaziz)                                                                                                                                                                       |
+| [Βιετναμέζικα](https://huggingface.co/course/vi/chapter1/1)                   | [@honghanhh](https://github.com/honghanhh)                                                                                                                                                                                                                                                                                                               |
+| [Κινέζικα (απλοποιημένα)](https://huggingface.co/course/zh-CN/chapter1/1)     | [@zhlhyx](https://github.com/zhlhyx), [petrichor1122](https://github.com/petrichor1122), [@yaoqih](https://github.com/yaoqih)                                                                                                                                                                                                                            |
+| [Γερμανικά](https://huggingface.co/course/de/chapter1/1)                      | [@JesperDramsch](https://github.com/JesperDramsch), [@MarcusFra](https://github.com/MarcusFra), [@fabridamicelli](https://github.com/fabridamicelli)                                                                                                                                                                                                     |
+| [Ισπανικά](https://huggingface.co/course/es/chapter1/1)                       | [@camartinezbu](https://github.com/camartinezbu), [@munozariasjm](https://github.com/munozariasjm), [@fordaz](https://github.com/fordaz)                                                                                                                                                                                                                 |
+| [Ιταλικά](https://huggingface.co/course/it/chapter1/1)                        | [@CaterinaBi](https://github.com/CaterinaBi), [@ClonedOne](https://github.com/ClonedOne), [@Nolanogenn](https://github.com/Nolanogenn), [@EdAbati](https://github.com/EdAbati), [@gdacciaro](https://github.com/gdacciaro)                                                                                                                              |
+| [Ιαπωνικά](https://huggingface.co/course/ja/chapter1/1)                       | [@hiromu166](https://github.com/@hiromu166), [@younesbelkada](https://github.com/@younesbelkada), [@HiromuHota](https://github.com/@HiromuHota)                                                                                                                                                                                                          |
+| [Κορεάτικα](https://huggingface.co/course/ko/chapter1/1)                      | [@Doohae](https://github.com/Doohae), [@wonhyeongseo](https://github.com/wonhyeongseo), [@dlfrnaos19](https://github.com/dlfrnaos19)                                                                                                                                                                                                                     |
+| [Πορτογαλικά](https://huggingface.co/course/pt/chapter1/1)                    | [@johnnv1](https://github.com/johnnv1), [@victorescosta](https://github.com/victorescosta), [@LincolnVS](https://github.com/LincolnVS)                                                                                                                                                                                                                   |
+| [Ρωσικά](https://huggingface.co/course/ru/chapter1/1)                         | [@pdumin](https://github.com/pdumin), [@svv73](https://github.com/svv73)                                                                                                                                                                                                                                                                                 |
+| [Τουρκικά](https://huggingface.co/course/tr/chapter1/1)                       | [@tanersekmen](https://github.com/tanersekmen), [@mertbozkir](https://github.com/mertbozkir), [@ftarlaci](https://github.com/ftarlaci), [@akkasayaz](https://github.com/akkasayaz)                                                                                                                                                                       |
+| [Κινέζικα (παραδοσιακά)](https://huggingface.co/course/zh-TW/chapter1/1)      | [@davidpeng86](https://github.com/davidpeng86)                                                                                                                                                                                                                                                                                                           |
+
+> [!TIP]
+> Δεν βλέπετε τη γλώσσα σας στον παραπάνω πίνακα ή θέλετε να συνεισφέρετε σε μια υπάρχουσα μετάφραση; Μπορείτε να μας βοηθήσετε να μεταφράσουμε το μάθημα ακολουθώντας τις οδηγίες <a href="https://github.com/huggingface/course#translating-the-course-into-your-language">εδώ</a>.
+
+## Ας ξεκινήσουμε 🚀
+
+Είστε έτοιμοι; Σε αυτό το κεφάλαιο, θα μάθετε:
+
+* Πώς να χρησιμοποιείτε τη συνάρτηση `pipeline()` για την επίλυση εργασιών NLP, όπως δημιουργία κειμένου και κατηγοριοποίηση
+* Για την αρχιτεκτονική Transformer
+* Πώς να διακρίνετε μεταξύ αρχιτεκτονικών encoder, decoder και encoder-decoder και τις περιπτώσεις χρήσης τους

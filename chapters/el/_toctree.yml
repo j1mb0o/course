@@ -1,0 +1,30 @@
+- title: 0. Εγκατάσταση
+  sections:
+  - local: chapter0/1
+    title: Εισαγωγή
+
+- title: 1. Μοντέλα Transformer
+  sections:
+  - local: chapter1/1
+    title: Εισαγωγή
+  - local: chapter1/2
+    title: Επεξεργασία Φυσικής Γλώσσας και Μεγάλα Γλωσσικά Μοντέλα
+  - local: chapter1/3
+    title: Τι μπορούν να κάνουν τα Transformers;
+  - local: chapter1/4
+    title: Πώς λειτουργούν τα Transformers;
+  - local: chapter1/5
+    title: Πώς τα 🤗 Transformers επιλύουν εργασίες
+  - local: chapter1/6
+    title: Αρχιτεκτονικές Transformer
+  - local: chapter1/7
+    title: Γρήγορο κουίζ
+  - local: chapter1/8
+    title: Συμπέρασμα με LLMs
+  - local: chapter1/9
+    title: Προκαταλήψεις και περιορισμοί
+  - local: chapter1/10
+    title: Περίληψη
+  - local: chapter1/11
+    title: Εξέταση πιστοποίησης
+    quiz: 1

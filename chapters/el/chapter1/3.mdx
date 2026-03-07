@@ -1,0 +1,379 @@
+# Transformers, τι μπορούν να κάνουν;[[transformers-what-can-they-do]]
+
+<CourseFloatingBanner chapter={1}
+  classNames="absolute z-10 right-0 top-0"
+  notebooks={[
+    {label: "Google Colab", value: "https://colab.research.google.com/github/huggingface/notebooks/blob/master/course/en/chapter1/section3.ipynb"},
+    {label: "Aws Studio", value: "https://studiolab.sagemaker.aws/import/github/huggingface/notebooks/blob/master/course/en/chapter1/section3.ipynb"},
+]} />
+
+Σε αυτή την ενότητα, θα εξετάσουμε τι μπορούν να κάνουν τα μοντέλα Transformer και θα χρησιμοποιήσουμε το πρώτο μας εργαλείο από τη βιβλιοθήκη 🤗 Transformers: τη συνάρτηση `pipeline()`.
+
+> [!TIP]
+> 👀 Βλέπετε το κουμπί <em>Open in Colab</em> πάνω δεξιά; Κάντε κλικ σε αυτό για να ανοίξετε ένα Google Colab notebook με όλα τα παραδείγματα κώδικα αυτής της ενότητας. Αυτό το κουμπί θα υπάρχει σε κάθε ενότητα που περιέχει παραδείγματα κώδικα.
+>
+> Αν θέλετε να εκτελέσετε τα παραδείγματα τοπικά, σας συνιστούμε να δείτε την <a href="/course/chapter0">εγκατάσταση</a>.
+
+## Τα Transformers είναι παντού![[transformers-are-everywhere]]
+
+Τα μοντέλα Transformer χρησιμοποιούνται για την επίλυση όλων των ειδών εργασιών σε διαφορετικές τροπικότητες, συμπεριλαμβανομένης της επεξεργασίας φυσικής γλώσσας (NLP), της υπολογιστικής όρασης, της επεξεργασίας ήχου και πολλών άλλων. Ακολουθούν μερικές από τις εταιρείες και οργανισμοί που χρησιμοποιούν Hugging Face και μοντέλα Transformer, οι οποίοι επίσης συνεισφέρουν στην κοινότητα μοιράζοντας τα μοντέλα τους:
+
+<img src="https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter1/companies.PNG" alt="Εταιρείες που χρησιμοποιούν Hugging Face" width="100%">
+
+Η [βιβλιοθήκη 🤗 Transformers](https://github.com/huggingface/transformers) παρέχει τη λειτουργικότητα για τη δημιουργία και χρήση αυτών των κοινόχρηστων μοντέλων. Το [Model Hub](https://huggingface.co/models) περιέχει εκατομμύρια προ-εκπαιδευμένα μοντέλα που ο καθένας μπορεί να κατεβάσει και να χρησιμοποιήσει. Μπορείτε επίσης να ανεβάσετε τα δικά σας μοντέλα στο Hub!
+
+> [!TIP]
+> ⚠️ Το Hugging Face Hub δεν περιορίζεται σε μοντέλα Transformer. Ο καθένας μπορεί να μοιραστεί οποιοδήποτε είδος μοντέλων ή συνόλων δεδομένων θέλει! <a href="https://huggingface.co/join">Δημιουργήστε λογαριασμό huggingface.co</a> για να επωφεληθείτε από όλες τις διαθέσιμες λειτουργίες!
+
+Πριν εμβαθύνουμε στον τρόπο λειτουργίας των μοντέλων Transformer, ας δούμε μερικά παραδείγματα πώς μπορούν να χρησιμοποιηθούν για την επίλυση ενδιαφέροντων προβλημάτων NLP.
+
+## Εργασία με pipelines[[working-with-pipelines]]
+
+<Youtube id="tiZFewofSLM" />
+
+Το πιο βασικό αντικείμενο στη βιβλιοθήκη 🤗 Transformers είναι η συνάρτηση `pipeline()`. Συνδέει ένα μοντέλο με τα απαραίτητα βήματα προ- και μετα-επεξεργασίας, επιτρέποντάς μας να εισάγουμε απευθείας οποιοδήποτε κείμενο και να λαμβάνουμε κατανοητή απάντηση:
+
+```python
+from transformers import pipeline
+
+classifier = pipeline("sentiment-analysis")
+classifier("I've been waiting for a HuggingFace course my whole life.")
+```
+
+```python out
+[{'label': 'POSITIVE', 'score': 0.9598047137260437}]
+```
+
+Μπορούμε ακόμα να περάσουμε αρκετές προτάσεις!
+
+```python
+classifier(
+    ["I've been waiting for a HuggingFace course my whole life.", "I hate this so much!"]
+)
+```
+
+```python out
+[{'label': 'POSITIVE', 'score': 0.9598047137260437},
+ {'label': 'NEGATIVE', 'score': 0.9994558095932007}]
+```
+
+Από προεπιλογή, αυτό το pipeline επιλέγει ένα συγκεκριμένο προ-εκπαιδευμένο μοντέλο που έχει βελτιστοποιηθεί για ανάλυση συναισθήματος στα Αγγλικά. Το μοντέλο κατεβαίνει και αποθηκεύεται προσωρινά όταν δημιουργείτε το αντικείμενο `classifier`. Αν επαναλάβετε την εντολή, θα χρησιμοποιηθεί το αποθηκευμένο μοντέλο και δεν χρειάζεται να το κατεβάσετε ξανά.
+
+Υπάρχουν τρία κύρια βήματα όταν περνάτε κάποιο κείμενο σε ένα pipeline:
+
+1. Το κείμενο υποβάλλεται σε προ-επεξεργασία σε μορφή που το μοντέλο μπορεί να κατανοήσει.
+2. Οι επεξεργασμένες εισόδοι περνούν στο μοντέλο.
+3. Οι προβλέψεις του μοντέλου υποβάλλονται σε μετα-επεξεργασία, ώστε να μπορείτε να τις κατανοήσετε.
+
+## Διαθέσιμα pipelines για διαφορετικές τροπικότητες
+
+Η συνάρτηση `pipeline()` υποστηρίζει πολλαπλές τροπικότητες, επιτρέποντάς σας να εργάζεστε με κείμενο, εικόνες, ήχο και ακόμα και πολυτροπικές εργασίες. Σε αυτό το μάθημα θα επικεντρωθούμε στις εργασίες κειμένου, αλλά είναι χρήσιμο να κατανοήσουμε τις δυνατότητες της αρχιτεκτονικής transformer.
+
+> [!TIP]
+> Για μια πλήρη και ενημερωμένη λίστα pipelines, δείτε την [τεκμηρίωση 🤗 Transformers](https://huggingface.co/docs/hub/en/models-tasks).
+
+### Pipelines κειμένου
+
+- `text-generation`: Δημιουργία κειμένου από μια προτροπή
+- `text-classification`: Κατηγοριοποίηση κειμένου σε προκαθορισμένες κατηγορίες
+- `summarization`: Δημιουργία συντομότερης έκδοσης κειμένου διατηρώντας τις βασικές πληροφορίες
+- `translation`: Μετάφραση κειμένου από μια γλώσσα σε άλλη
+- `zero-shot-classification`: Κατηγοριοποίηση κειμένου χωρίς προηγούμενη εκπαίδευση σε συγκεκριμένες ετικέτες
+- `feature-extraction`: Εξαγωγή διανυσματικών αναπαραστάσεων κειμένου
+
+### Pipelines εικόνας
+
+- `image-to-text`: Δημιουργία περιγραφών κειμένου από εικόνες
+- `image-classification`: Αναγνώριση αντικειμένων σε εικόνα
+- `object-detection`: Εντοπισμός και αναγνώριση αντικειμένων σε εικόνες
+
+### Pipelines ήχου
+
+- `automatic-speech-recognition`: Μετατροπή ομιλίας σε κείμενο
+- `audio-classification`: Κατηγοριοποίηση ήχου σε κατηγορίες
+- `text-to-speech`: Μετατροπή κειμένου σε προφορικό ήχο
+
+### Πολυτροπικά pipelines
+
+- `image-text-to-text`: Απάντηση σε εικόνα με βάση μια προτροπή κειμένου
+
+Ας εξερευνήσουμε μερικά από αυτά τα pipelines πιο λεπτομερώς!
+
+## Κατηγοριοποίηση μηδενικής βολής[[zero-shot-classification]]
+
+Θα ξεκινήσουμε αντιμετωπίζοντας μια πιο απαιτητική εργασία όπου πρέπει να κατηγοριοποιήσουμε κείμενα που δεν έχουν επισημανθεί. Αυτό είναι ένα συνηθισμένο σενάριο σε πραγματικά έργα, επειδή η επισήμανση κειμένου είναι συνήθως χρονοβόρα και απαιτεί εξειδίκευση στον τομέα. Για αυτή την περίπτωση χρήσης, το pipeline `zero-shot-classification` είναι πολύ ισχυρό: σας επιτρέπει να καθορίσετε ποιες ετικέτες να χρησιμοποιήσετε για την κατηγοριοποίηση, οπότε δεν χρειάζεται να βασίζεστε στις ετικέτες του προ-εκπαιδευμένου μοντέλου.
+
+```python
+from transformers import pipeline
+
+classifier = pipeline("zero-shot-classification")
+classifier(
+    "This is a course about the Transformers library",
+    candidate_labels=["education", "politics", "business"],
+)
+```
+
+```python out
+{'sequence': 'This is a course about the Transformers library',
+ 'labels': ['education', 'business', 'politics'],
+ 'scores': [0.8445963859558105, 0.111976258456707, 0.043427448719739914]}
+```
+
+Αυτό το pipeline ονομάζεται _zero-shot_ (μηδενικής βολής) επειδή δεν χρειάζεται να βελτιστοποιήσετε το μοντέλο στα δεδομένα σας για να το χρησιμοποιήσετε. Μπορεί άμεσα να επιστρέψει βαθμολογίες πιθανότητας για οποιαδήποτε λίστα ετικετών θέλετε!
+
+> [!TIP]
+> ✏️ **Δοκιμάστε το!** Πειραματιστείτε με τις δικές σας ακολουθίες και ετικέτες και δείτε πώς συμπεριφέρεται το μοντέλο.
+
+## Δημιουργία κειμένου[[text-generation]]
+
+Τώρα ας δούμε πώς να χρησιμοποιήσουμε ένα pipeline για τη δημιουργία κάποιου κειμένου. Η βασική ιδέα εδώ είναι ότι παρέχετε μια προτροπή και το μοντέλο θα την αυτο-ολοκληρώσει δημιουργώντας το υπόλοιπο κείμενο. Αυτό είναι παρόμοιο με τη λειτουργία προβλεπτικού κειμένου που βρίσκεται σε πολλά τηλέφωνα. Η δημιουργία κειμένου περιλαμβάνει τυχαιότητα, οπότε είναι φυσιολογικό αν δεν λαμβάνετε τα ίδια αποτελέσματα με αυτά που φαίνονται παρακάτω.
+
+```python
+from transformers import pipeline
+
+generator = pipeline("text-generation")
+generator("In this course, we will teach you how to")
+```
+
+```python out
+[{'generated_text': 'In this course, we will teach you how to understand and use '
+                    'data flow and data interchange when handling user data. We '
+                    'will be working with one or more of the most commonly used '
+                    'data flows — data flows of various types, as seen by the '
+                    'HTTP'}]
+```
+
+Μπορείτε να ελέγξετε πόσες διαφορετικές ακολουθίες δημιουργούνται με το όρισμα `num_return_sequences` και το συνολικό μήκος του κειμένου εξόδου με το όρισμα `max_length`.
+
+> [!TIP]
+> ✏️ **Δοκιμάστε το!** Χρησιμοποιήστε τα ορίσματα `num_return_sequences` και `max_length` για να δημιουργήσετε δύο προτάσεις από 15 λέξεις η καθεμία.
+
+## Χρήση οποιουδήποτε μοντέλου από το Hub σε ένα pipeline[[using-any-model-from-the-hub-in-a-pipeline]]
+
+Τα προηγούμενα παραδείγματα χρησιμοποιούσαν το προεπιλεγμένο μοντέλο για την εκάστοτε εργασία, αλλά μπορείτε επίσης να επιλέξετε ένα συγκεκριμένο μοντέλο από το Hub για χρήση σε ένα pipeline για μια συγκεκριμένη εργασία — ας πούμε δημιουργία κειμένου. Μεταβείτε στο [Model Hub](https://huggingface.co/models) και κάντε κλικ στην αντίστοιχη ετικέτα στα αριστερά για να εμφανίσετε μόνο τα υποστηριζόμενα μοντέλα για αυτή την εργασία.
+
+Ας δοκιμάσουμε το μοντέλο [`HuggingFaceTB/SmolLM2-360M`](https://huggingface.co/HuggingFaceTB/SmolLM2-360M)! Ακολουθεί ο τρόπος φόρτωσής του στο ίδιο pipeline με πριν:
+
+```python
+from transformers import pipeline
+
+generator = pipeline("text-generation", model="HuggingFaceTB/SmolLM2-360M")
+generator(
+    "In this course, we will teach you how to",
+    max_length=30,
+    num_return_sequences=2,
+)
+```
+
+```python out
+[{'generated_text': 'In this course, we will teach you how to manipulate the world and '
+                    'move your mental and physical capabilities to your advantage.'},
+ {'generated_text': 'In this course, we will teach you how to become an expert and '
+                    'practice realtime, and with a hands on experience on both real '
+                    'time and real'}]
+```
+
+Μπορείτε να βελτιώσετε την αναζήτησή σας για ένα μοντέλο κάνοντας κλικ στις ετικέτες γλώσσας και να επιλέξετε ένα μοντέλο που θα δημιουργεί κείμενο σε άλλη γλώσσα. Το Model Hub περιέχει ακόμα σημεία ελέγχου για πολυγλωσσικά μοντέλα που υποστηρίζουν αρκετές γλώσσες.
+
+Μόλις επιλέξετε ένα μοντέλο κάνοντας κλικ σε αυτό, θα δείτε ότι υπάρχει ένα widget που σας επιτρέπει να το δοκιμάσετε απευθείας online. Με αυτόν τον τρόπο μπορείτε να ελέγξετε γρήγορα τις ικανότητες του μοντέλου πριν το κατεβάσετε.
+
+> [!TIP]
+> ✏️ **Δοκιμάστε το!** Χρησιμοποιήστε τα φίλτρα για να βρείτε ένα μοντέλο δημιουργίας κειμένου για άλλη γλώσσα. Μη διστάσετε να παίξετε με το widget και να το χρησιμοποιήσετε σε ένα pipeline!
+
+### Πάροχοι Συμπερασμού[[inference-providers]]
+
+Όλα τα μοντέλα μπορούν να δοκιμαστούν απευθείας μέσω του προγράμματος περιήγησής σας χρησιμοποιώντας τους Παρόχους Συμπερασμού, που είναι διαθέσιμοι στον ιστότοπο [Hugging Face](https://huggingface.co/docs/inference-providers/en/index). Μπορείτε να παίξετε με το μοντέλο απευθείας σε αυτή τη σελίδα εισάγοντας προσαρμοσμένο κείμενο και παρακολουθώντας το μοντέλο να επεξεργάζεται τα δεδομένα εισόδου.
+
+## Συμπλήρωση μάσκας[[mask-filling]]
+
+Το επόμενο pipeline που θα δοκιμάσετε είναι το `fill-mask`. Η ιδέα αυτής της εργασίας είναι να συμπληρωθούν τα κενά σε ένα δεδομένο κείμενο:
+
+```python
+from transformers import pipeline
+
+unmasker = pipeline("fill-mask")
+unmasker("This course will teach you all about <mask> models.", top_k=2)
+```
+
+```python out
+[{'sequence': 'This course will teach you all about mathematical models.',
+  'score': 0.19619831442832947,
+  'token': 30412,
+  'token_str': ' mathematical'},
+ {'sequence': 'This course will teach you all about computational models.',
+  'score': 0.04052725434303284,
+  'token': 38163,
+  'token_str': ' computational'}]
+```
+
+Το όρισμα `top_k` ελέγχει πόσες πιθανότητες θέλετε να εμφανίζονται. Σημειώστε ότι εδώ το μοντέλο συμπληρώνει την ειδική λέξη `<mask>`, που συχνά αναφέρεται ως *token μάσκας*. Άλλα μοντέλα συμπλήρωσης μάσκας μπορεί να έχουν διαφορετικά tokens μάσκας, οπότε είναι πάντα καλό να επαληθεύετε τη σωστή λέξη μάσκας κατά την εξερεύνηση άλλων μοντέλων.
+
+> [!TIP]
+> ✏️ **Δοκιμάστε το!** Αναζητήστε το μοντέλο `bert-base-cased` στο Hub και προσδιορίστε τη λέξη μάσκας του στο widget Inference API. Τι προβλέπει αυτό το μοντέλο για την πρόταση στο παράδειγμά μας με το `pipeline`;
+
+## Αναγνώριση ονομασμένων οντοτήτων[[named-entity-recognition]]
+
+Η αναγνώριση ονομασμένων οντοτήτων (NER) είναι μια εργασία όπου το μοντέλο πρέπει να βρει ποια μέρη του κειμένου εισόδου αντιστοιχούν σε οντότητες όπως πρόσωπα, τοποθεσίες ή οργανισμοί. Ας δούμε ένα παράδειγμα:
+
+```python
+from transformers import pipeline
+
+ner = pipeline("ner", grouped_entities=True)
+ner("My name is Sylvain and I work at Hugging Face in Brooklyn.")
+```
+
+```python out
+[{'entity_group': 'PER', 'score': 0.99816, 'word': 'Sylvain', 'start': 11, 'end': 18},
+ {'entity_group': 'ORG', 'score': 0.97960, 'word': 'Hugging Face', 'start': 33, 'end': 45},
+ {'entity_group': 'LOC', 'score': 0.99321, 'word': 'Brooklyn', 'start': 49, 'end': 57}
+]
+```
+
+Εδώ το μοντέλο αναγνώρισε σωστά ότι ο Sylvain είναι πρόσωπο (PER), το Hugging Face οργανισμός (ORG) και το Brooklyn τοποθεσία (LOC).
+
+Περνάμε την επιλογή `grouped_entities=True` στη συνάρτηση δημιουργίας pipeline για να πούμε στο pipeline να ομαδοποιεί μαζί τα μέρη της πρότασης που αντιστοιχούν στην ίδια οντότητα: εδώ το μοντέλο ομαδοποίησε σωστά τα "Hugging" και "Face" ως έναν ενιαίο οργανισμό, παρότι το όνομα αποτελείται από πολλές λέξεις.
+
+> [!TIP]
+> ✏️ **Δοκιμάστε το!** Αναζητήστε στο Model Hub ένα μοντέλο ικανό να κάνει επισήμανση μερών του λόγου (συνήθως συντομογράφεται ως POS) στα Αγγλικά. Τι προβλέπει αυτό το μοντέλο για την πρόταση στο παράδειγμα παραπάνω;
+
+## Απάντηση ερωτήσεων[[question-answering]]
+
+Το pipeline `question-answering` απαντά σε ερωτήσεις χρησιμοποιώντας πληροφορίες από ένα δεδομένο πλαίσιο:
+
+```python
+from transformers import pipeline
+
+question_answerer = pipeline("question-answering")
+question_answerer(
+    question="Where do I work?",
+    context="My name is Sylvain and I work at Hugging Face in Brooklyn",
+)
+```
+
+```python out
+{'score': 0.6385916471481323, 'start': 33, 'end': 45, 'answer': 'Hugging Face'}
+```
+
+Σημειώστε ότι αυτό το pipeline λειτουργεί εξάγοντας πληροφορίες από το παρεχόμενο πλαίσιο· δεν δημιουργεί την απάντηση.
+
+## Σύνοψη[[summarization]]
+
+Η σύνοψη είναι η εργασία μείωσης ενός κειμένου σε ένα συντομότερο κείμενο διατηρώντας όλες (ή τις περισσότερες) από τις σημαντικές πτυχές που αναφέρονται στο κείμενο. Ακολουθεί ένα παράδειγμα:
+
+```python
+from transformers import pipeline
+
+summarizer = pipeline("summarization")
+summarizer(
+    """
+    America has changed dramatically during recent years. Not only has the number of
+    graduates in traditional engineering disciplines such as mechanical, civil,
+    electrical, chemical, and aeronautical engineering declined, but in most of
+    the premier American universities engineering curricula now concentrate on
+    and encourage largely the study of engineering science. As a result, there
+    are declining offerings in engineering subjects dealing with infrastructure,
+    the environment, and related issues, and greater concentration on high
+    technology subjects, largely supporting increasingly complex scientific
+    developments. While the latter is important, it should not be at the expense
+    of more traditional engineering.
+
+    Rapidly developing economies such as China and India, as well as other
+    industrial countries in Europe and Asia, continue to encourage and advance
+    the teaching of engineering. Both China and India, respectively, graduate
+    six and eight times as many traditional engineers as does the United States.
+    Other industrial countries at minimum maintain their output, while America
+    suffers an increasingly serious decline in the number of engineering graduates
+    and a lack of well-educated engineers.
+"""
+)
+```
+
+```python out
+[{'summary_text': ' America has changed dramatically during recent years . The '
+                  'number of engineering graduates in the U.S. has declined in '
+                  'traditional engineering disciplines such as mechanical, civil '
+                  ', electrical, chemical, and aeronautical engineering . Rapidly '
+                  'developing economies such as China and India, as well as other '
+                  'industrial countries in Europe and Asia, continue to encourage '
+                  'and advance engineering .'}]
+```
+
+Όπως και με τη δημιουργία κειμένου, μπορείτε να καθορίσετε `max_length` ή `min_length` για το αποτέλεσμα.
+
+## Μετάφραση[[translation]]
+
+Για τη μετάφραση, μπορείτε να χρησιμοποιήσετε ένα προεπιλεγμένο μοντέλο αν παρέχετε ένα ζεύγος γλωσσών στο όνομα εργασίας (όπως `"translation_en_to_fr"`), αλλά ο ευκολότερος τρόπος είναι να επιλέξετε το μοντέλο που θέλετε να χρησιμοποιήσετε από το [Model Hub](https://huggingface.co/models). Εδώ θα δοκιμάσουμε τη μετάφραση από τα Γαλλικά στα Αγγλικά:
+
+```python
+from transformers import pipeline
+
+translator = pipeline("translation", model="Helsinki-NLP/opus-mt-fr-en")
+translator("Ce cours est produit par Hugging Face.")
+```
+
+```python out
+[{'translation_text': 'This course is produced by Hugging Face.'}]
+```
+
+Όπως και με τη δημιουργία κειμένου και τη σύνοψη, μπορείτε να καθορίσετε `max_length` ή `min_length` για το αποτέλεσμα.
+
+> [!TIP]
+> ✏️ **Δοκιμάστε το!** Αναζητήστε μοντέλα μετάφρασης σε άλλες γλώσσες και δοκιμάστε να μεταφράσετε την προηγούμενη πρόταση σε μερικές διαφορετικές γλώσσες.
+
+## Pipelines εικόνας και ήχου
+
+Πέρα από το κείμενο, τα μοντέλα Transformer μπορούν επίσης να εργαστούν με εικόνες και ήχο. Ακολουθούν μερικά παραδείγματα:
+
+### Κατηγοριοποίηση εικόνας
+
+```python
+from transformers import pipeline
+
+image_classifier = pipeline(
+    task="image-classification", model="google/vit-base-patch16-224"
+)
+result = image_classifier(
+    "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
+)
+print(result)
+```
+
+```python out
+[{'label': 'lynx, catamount', 'score': 0.43350091576576233},
+ {'label': 'cougar, puma, catamount, mountain lion, painter, panther, Felis concolor',
+  'score': 0.034796204417943954},
+ {'label': 'snow leopard, ounce, Panthera uncia',
+  'score': 0.03240183740854263},
+ {'label': 'Egyptian cat', 'score': 0.02394474856555462},
+ {'label': 'tiger cat', 'score': 0.02288915030658245}]
+```
+
+### Αυτόματη αναγνώριση ομιλίας
+
+```python
+from transformers import pipeline
+
+transcriber = pipeline(
+    task="automatic-speech-recognition", model="openai/whisper-large-v3"
+)
+result = transcriber(
+    "https://huggingface.co/datasets/Narsil/asr_dummy/resolve/main/mlk.flac"
+)
+print(result)
+```
+
+```python out
+{'text': ' I have a dream that one day this nation will rise up and live out the true meaning of its creed.'}
+```
+
+## Συνδυασμός δεδομένων από πολλαπλές πηγές
+
+Μια ισχυρή εφαρμογή των μοντέλων Transformer είναι η ικανότητά τους να συνδυάζουν και να επεξεργάζονται δεδομένα από πολλαπλές πηγές. Αυτό είναι ιδιαίτερα χρήσιμο όταν χρειάζεστε να:
+
+1. Αναζητήσετε σε πολλαπλές βάσεις δεδομένων ή αποθετήρια
+2. Ενοποιήσετε πληροφορίες από διαφορετικές μορφές (κείμενο, εικόνες, ήχος)
+3. Δημιουργήσετε μια ενοποιημένη εικόνα σχετικών πληροφοριών
+
+## Συμπέρασμα
+
+Τα pipelines που παρουσιάστηκαν σε αυτό το κεφάλαιο είναι κυρίως για επίδειξη. Έχουν προγραμματιστεί για συγκεκριμένες εργασίες και δεν μπορούν να εκτελέσουν παραλλαγές τους. Στο επόμενο κεφάλαιο, θα μάθετε τι υπάρχει μέσα σε μια συνάρτηση `pipeline()` και πώς να προσαρμόσετε τη συμπεριφορά της.
